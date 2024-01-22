@@ -1,6 +1,6 @@
 
-my_c_app: main.o hello.o world.o common.o
-	gcc -o my_c_app main.o hello.o world.o common.o
+steel: main.o hello.o world.o common.o
+	gcc -o steel main.o hello.o world.o common.o
 
 main.o: main.c hello.h world.h
 	gcc -c main.c
@@ -15,4 +15,4 @@ common.o: common.c common.h
 	gcc -c common.c
 
 clean:
-	rm *.o my_c_app
+	rm -f *.o steel
