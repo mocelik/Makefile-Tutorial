@@ -1,3 +1,4 @@
+all: steel
 
 steel: main.o hello.o world.o common.o
 	gcc -o steel main.o hello.o world.o common.o
