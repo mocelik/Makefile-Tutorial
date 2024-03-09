@@ -7,8 +7,8 @@ target: prereq1 prereq2
 
 target: prereq3
 
-prereq%:
-	@: # empty recipe
+# Create empty recipes for prereq*
+prereq%: ;
 
 
 # wild-bear, wild-beast will both match this rule
@@ -20,5 +20,9 @@ wild-%:
 
 # You can specify multiple targets per rule with a common recipe.
 # The $@ in the recipe matches which target triggered the rule
+# The rule will run once per every target requested
 lion tiger:
 	@echo Hello $@
+
+# Refer to the following page for more on automatic variables
+# https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html

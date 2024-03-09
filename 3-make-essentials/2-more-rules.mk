@@ -1,12 +1,24 @@
 
-### Warm-up... ###
+### Warm-up with more rule syntax ###
+########################################################################
 
 single_line_target: ; echo "You can put the recipe after a semicolon"
-blank_recipe: ; @:
+blank_recipe: ;
 
-################
-### PREFIXES ###
-################
+# Double-colon rules
+multi-recipe-rule ::
+	echo "Hello..."
+multi-recipe-rule ::
+	echo "...world"
+
+# order-only prerequisite (try touching order-only-dep after ordered_rule)
+ordered_rule: | order-only-dep
+	touch ordered_rule
+order-only-dep:
+	touch order-only-dep
+
+### Prefixes ###
+########################################################################
 
 # @ does not print the recipe before it executes
 hide_recipe:
@@ -21,15 +33,14 @@ run_during_dryrun:
 	+echo "This command runs even if you rerun make with --dry-run"
 
 
-########################
-### WILDCARD TARGETS ###
-########################
+### Pattern Rules (Wildcard Targets) ###
+########################################################################
 
-# hello-mars
+# hello-asia
 hello-%:
 	@echo "Matched hello-% wildcard rule. You added [$*]"
 
-# hello+world
+# hello~world, hello-my-favorite-world
 hello%world:
 	@echo "matched hello%world wildcard rule. You added [$*]"
 
@@ -41,9 +52,8 @@ hello-world:
 	@echo "Direct-match rules always take precedence over wildcards"
 
 
-#############################
-### PREREQUISITE HANDLING ###
-#############################
+### Prerequisite Handling ###
+########################################################################
 
 multiple-prereqs: dep1
 	@echo "Building multiple-prereqs"
@@ -54,3 +64,12 @@ multiple-prereqs: dep2
 
 dep%:
 	@echo "Recipe for Dependency $*"
+
+### PHONY Targets ###
+########################################################################
+.PHONY: not-a-file
+not-a-file:
+	echo "This recipe does not create a file and it doesn't need to."
+
+# Common PHONY targets
+.PHONY: all clean test

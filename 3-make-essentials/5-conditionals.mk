@@ -1,6 +1,9 @@
 
 CONFIG:=debug
 
+### Conditional Statements ###
+########################################################################
+
 # The following "if" statements exist:
 # ifeq (a,b), ifneq (a,b)  --   check if a == b
 # ifdef (x), ifndef (x)    --   check if x variable is defined
@@ -21,16 +24,19 @@ all: conditional-statements conditional-functions
 
 # We can also use conditional statements inside of a rule:
 conditional-statements:
-	echo ""
+	@echo "recipe begin"
 ifeq ($(CONFIG), debug)
-	echo "ifeq statement - debug"
+	@echo "ifeq statement - debug"
 else ifeq ($(CONFIG), release)
-	echo "else ifeq statement - release"
+	@echo "else ifeq statement - release"
 else
-	echo "else statement - $(CONFIG)"
+	@echo "else statement - $(CONFIG)"
 endif
-	echo "This echo is still part of the recipe"
+	@echo "recipe end"
 
+
+### Conditional Functions ###
+########################################################################
 
 # Now lets look at Conditional Functions
 # Notice that we can use variables before they've been defined and set,
@@ -41,10 +47,13 @@ endif
 conditional-functions:
 	$(info if functions: )
 	$(info EXAMPLE_1 is: $(EXAMPLE_1))
-	$(info EXAMPLE_2 is: $(EXAMPLE_2))	
+	$(info EXAMPLE_2 is: $(EXAMPLE_2))
 	$(info EXAMPLE_3 is: $(EXAMPLE_3))
 
 EXAMPLE_1 := $(if anything,true_result,[false_result])
 EXAMPLE_2 := $(if ,true_result,false_result)
 EXAMPLE_3 := $(if ,true_result)
+
 # There also exists $(and ), $(or ), and $(intcmp ) functions.
+# Refer to the following page for more information:
+# https://www.gnu.org/software/make/manual/html_node/Conditional-Functions.html
