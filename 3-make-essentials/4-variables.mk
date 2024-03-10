@@ -43,11 +43,12 @@ $(info Value of RECURSIVE_VAR_DATE: $(value RECURSIVE_VAR_DATE))
 
 $(info )
 
-### Multi-line variables ###
+### Canned Recipes (Multi-line variables) ###
 ########################################################################
 
 # We can also create variables that span multiple lines by defining them
 # using keywords define and endef
+# Sample use case: Write a part of a recipe shared between rules
 define MULTI_LINE_VAR :=
 This variable
 is defined on

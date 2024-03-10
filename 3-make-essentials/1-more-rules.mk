@@ -12,10 +12,12 @@ multi-recipe-rule ::
 	echo "...world"
 
 # order-only prerequisite (try touching order-only-dep after ordered_rule)
+# The target will not be rebuilt if the order-only-dep is newer.
 ordered_rule: | order-only-dep
 	touch ordered_rule
 order-only-dep:
 	touch order-only-dep
+
 
 ### Prefixes ###
 ########################################################################
@@ -64,6 +66,7 @@ multiple-prereqs: dep2
 
 dep%:
 	@echo "Recipe for Dependency $*"
+
 
 ### PHONY Targets ###
 ########################################################################
