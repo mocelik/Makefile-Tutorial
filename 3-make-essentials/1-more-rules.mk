@@ -68,6 +68,23 @@ dep%:
 	@echo "Recipe for Dependency $*"
 
 
+### Static Pattern Rules ###
+########################################################################
+
+# Useful when you want to automatically generate prerequisites based
+# on the names of targets
+# General Syntax:
+# target-pattern-1 target-pattern-2 ... : target-pattern-% : prereq-patterns-with-%
+
+hello-asia hello-europe: hello-%: static-dependency-%
+
+static-dependency-asia:
+	@echo Static Dependency for asia
+
+static-dependency-europe:
+	@echo Static Dependency for europe
+
+
 ### PHONY Targets ###
 ########################################################################
 .PHONY: not-a-file
