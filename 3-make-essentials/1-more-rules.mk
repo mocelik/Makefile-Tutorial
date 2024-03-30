@@ -52,11 +52,11 @@ hello-%:
 
 # hello~world
 hello%world:
-	@echo "matched hello%world wildcard rule. You added [$*]"
+	@echo "Matched hello%world wildcard rule. You added [$*]"
 
 # hi-world
 %-world:
-	@echo "matched %-world wildcard rule. You added [$*]"
+	@echo "Matched %-world wildcard rule. You added [$*]"
 
 hello-world:
 	@echo "Direct-match rules always take precedence over wildcards"
