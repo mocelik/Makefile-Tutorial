@@ -67,9 +67,9 @@ hello-world:
 
 # prerequisites on other target lines are appended to
 # the original rule
-multiple-prereqs: dep1
-
 multiple-prereqs: dep2
+
+multiple-prereqs: dep1
 	@echo "Building multiple-prereqs"
 
 dep%:
