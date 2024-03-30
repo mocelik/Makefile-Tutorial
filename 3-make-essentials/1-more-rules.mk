@@ -2,21 +2,29 @@
 ### Warm-up with more rule syntax ###
 ########################################################################
 
-single_line_target: ; echo "You can put the recipe after a semicolon"
+# Standard rule syntax:
+# target1 target2: prereq1 prereq2
+#	recipe1
+#	recipe2
+
+# Add a semicolon to put the recipe on the same line
+single_line_target: ; echo "I am the recipe"
 blank_recipe: ;
 
 # Double-colon rules
-multi-recipe-rule ::
+double-colon-rule::
 	echo "Hello..."
-multi-recipe-rule ::
+double-colon-rule::
 	echo "...world"
 
-# order-only prerequisite (try touching order-only-dep after ordered_rule)
-# The target will not be rebuilt if the order-only-dep is newer.
-ordered_rule: | order-only-dep
+# order-only prerequisite
+# ordered_rule will not be considered out of date if order-only-prereq
+# is newer. It only expects order-only-prereq to exist.
+# Perhaps a better name would be "co-existing prerequisite"
+ordered_rule: | order-only-prereq
 	touch ordered_rule
-order-only-dep:
-	touch order-only-dep
+order-only-prereq:
+	touch order-only-prereq
 
 
 ### Prefixes ###
@@ -42,7 +50,7 @@ run_during_dryrun:
 hello-%:
 	@echo "Matched hello-% wildcard rule. You added [$*]"
 
-# hello~world, hello-my-favorite-world
+# hello~world
 hello%world:
 	@echo "matched hello%world wildcard rule. You added [$*]"
 
@@ -57,12 +65,12 @@ hello-world:
 ### Prerequisite Handling ###
 ########################################################################
 
-multiple-prereqs: dep1
-	@echo "Building multiple-prereqs"
-
 # prerequisites on other target lines are appended to
-# the original rule (above)
+# the original rule
+multiple-prereqs: dep1
+
 multiple-prereqs: dep2
+	@echo "Building multiple-prereqs"
 
 dep%:
 	@echo "Recipe for Dependency $*"
@@ -76,13 +84,14 @@ dep%:
 # General Syntax:
 # target-pattern-1 target-pattern-2 ... : target-pattern-% : prereq-patterns-with-%
 
-hello-asia hello-europe: hello-%: static-dependency-%
+asia-trip europe-trip: %-trip: static-dependency-%
+	@echo Trip to $*
 
 static-dependency-asia:
-	@echo Static Dependency for asia
+	@echo Packing bags for asia
 
 static-dependency-europe:
-	@echo Static Dependency for europe
+	@echo Excited to visit europe
 
 
 ### PHONY Targets ###
@@ -92,4 +101,9 @@ not-a-file:
 	echo "This recipe does not create a file and it doesn't need to."
 
 # Common PHONY targets
+.PHONY: all
+.PHONY: clean
+.PHONY: test
+
+# You can also add them all in one go:
 .PHONY: all clean test
