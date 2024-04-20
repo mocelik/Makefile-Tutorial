@@ -18,7 +18,7 @@ prereq%: ;
 
 
 # hello-asia, hello-africa will both match this rule
-# stem will be bear and beast respectively.
+# stem will be asia and africa respectively.
 hello-%:
 	@echo Target Name:   $@
 	@echo Wildcard stem: $*
