@@ -2,7 +2,7 @@
 CONFIG:=debug
 
 ### Conditional Statements ###
-########################################################################
+################################################################################
 
 # The following "if" statements exist:
 # ifeq (a,b), ifneq (a,b)  --   check if a == b
@@ -36,7 +36,7 @@ endif
 
 
 ### Conditional Functions ###
-########################################################################
+################################################################################
 
 # Now lets look at Conditional Functions
 # Notice that we can use variables before they've been defined and set,

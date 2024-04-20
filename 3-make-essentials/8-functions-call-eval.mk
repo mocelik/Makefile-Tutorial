@@ -23,7 +23,7 @@ $1: $2
 	$3
 endef
 
-MY_RULE_STRING := $(call MY_DYNAMIC_RULE,hello-world,,echo hello from the other side)
+MY_RULE_STRING := $(call MY_DYNAMIC_RULE,hello,,echo hello from the other side)
 $(info MY_RULE_STRING: [${MY_RULE_STRING}])
 
 $(eval ${MY_RULE_STRING})
