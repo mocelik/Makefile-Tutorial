@@ -2,32 +2,33 @@
 SIMPLE_VAR := hello
 RECURSIVE_VAR = world
 RECURSIVE_VAR ?= steel
-HELLO_WORLD := $(SIMPLE_VAR)
-HELLO_WORLD += $(RECURSIVE_VAR)
+HELLO_WORLD := ${SIMPLE_VAR}
+HELLO_WORLD += ${RECURSIVE_VAR}
 #CMDLINE_VAR should be set when running make - make CMDLINE_VAR=hi
-override OVERRIDDEN_VAR := "Can't touch this"
+override OVERRIDDEN_VAR := Can't touch this
 
-$(info SIMPLE_VAR     [$(SIMPLE_VAR)], \
+$(info SIMPLE_VAR     [${SIMPLE_VAR}], \
 	flavor: [$(flavor SIMPLE_VAR)], \
 	origin: [$(origin SIMPLE_VAR)])
 
-$(info RECURSIVE_VAR  [$(RECURSIVE_VAR)], \
+$(info RECURSIVE_VAR  [${RECURSIVE_VAR}], \
 	flavor: [$(flavor RECURSIVE_VAR)], \
 	origin: [$(origin RECURSIVE_VAR)])
 
-$(info HELLO_WORLD    [$(HELLO_WORLD)], \
+$(info HELLO_WORLD    [${HELLO_WORLD}], \
 	flavor: [$(flavor HELLO_WORLD)], \
 	origin: [$(origin HELLO_WORLD)])
 
-$(info CMDLINE_VAR    [$(CMDLINE_VAR)], \
+$(info CMDLINE_VAR    [${CMDLINE_VAR}], \
 	flavor: [$(flavor CMDLINE_VAR)], \
 	origin: [$(origin CMDLINE_VAR)])
 
-$(info OVERRIDDEN_VAR [$(OVERRIDDEN_VAR)], \
+$(info OVERRIDDEN_VAR [${OVERRIDDEN_VAR}], \
 	flavor: [$(flavor OVERRIDDEN_VAR)], \
 	origin: [$(origin OVERRIDDEN_VAR)])
 
 $(info )
+
 
 ### Recursive variable (and shell) ###
 ########################################################################
@@ -36,9 +37,9 @@ $(info )
 # to the output of that command, so the variable below
 # gets the current date each time it is used
 RECURSIVE_VAR_DATE = $(shell date +%s)
-$(info RECURSIVE_VAR_DATE: $(RECURSIVE_VAR_DATE))
+$(info RECURSIVE_VAR_DATE: ${RECURSIVE_VAR_DATE})
 $(shell sleep 1) # for demonstration purposes only
-$(info RECURSIVE_VAR_DATE: $(RECURSIVE_VAR_DATE))
+$(info RECURSIVE_VAR_DATE: ${RECURSIVE_VAR_DATE})
 $(info Value of RECURSIVE_VAR_DATE: $(value RECURSIVE_VAR_DATE))
 
 $(info )
@@ -55,7 +56,7 @@ is defined on
 multiple lines!
 endef
 
-$(info MULTI_LINE_VAR = $(MULTI_LINE_VAR))
+$(info MULTI_LINE_VAR = ${MULTI_LINE_VAR})
 
 $(info )
 
@@ -68,14 +69,15 @@ $(info )
 ADJECTIVE := COOL
 MY_COOL_VAR := cool
 MY_NICE_VAR := nice
-$(info $(ADJECTIVE) - $(MY_$(ADJECTIVE)_VAR))
+$(info ${ADJECTIVE} - ${MY_${ADJECTIVE}_VAR})
 
 ADJECTIVE := crazy
-MY_$(ADJECTIVE)_VAR := $(ADJECTIVE)
-$(info $(ADJECTIVE) - $(MY_$(ADJECTIVE)_VAR))
+MY_${ADJECTIVE}_VAR := ${ADJECTIVE}
+$(info ${ADJECTIVE} - ${MY_${ADJECTIVE}_VAR})
 
 $(info )
 
+### Escaping $ through $$ ###
 ########################################################################
 
 # If you don't want your variable to be expanded immediately, e.g. to

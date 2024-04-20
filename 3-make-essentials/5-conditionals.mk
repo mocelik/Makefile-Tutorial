@@ -12,12 +12,12 @@ ifndef CONFIG
 $(error CONFIG is not defined!)
 endif
 
-ifeq ($(CONFIG), debug)
+ifeq (${CONFIG}, debug)
 $(info CONFIG is debug)
-else ifeq ($(CONFIG), release)
+else ifeq (${CONFIG}, release)
 $(info CONFIG is release)
 else
-$(warning CONFIG is neither debug nor release, it is $(CONFIG))
+$(warning CONFIG is neither debug nor release, it is ${CONFIG})
 endif
 
 all: conditional-statements conditional-functions
@@ -25,12 +25,12 @@ all: conditional-statements conditional-functions
 # We can also use conditional statements inside of a rule:
 conditional-statements:
 	@echo "recipe begin"
-ifeq ($(CONFIG), debug)
+ifeq (${CONFIG}, debug)
 	@echo "ifeq statement - debug"
-else ifeq ($(CONFIG), release)
+else ifeq (${CONFIG}, release)
 	@echo "else ifeq statement - release"
 else
-	@echo "else statement - $(CONFIG)"
+	@echo "else statement - ${CONFIG}"
 endif
 	@echo "recipe end"
 
@@ -46,9 +46,9 @@ endif
 # string, the recipe of this rule is a bunch of empty strings.
 conditional-functions:
 	$(info if functions: )
-	$(info EXAMPLE_1 is: $(EXAMPLE_1))
-	$(info EXAMPLE_2 is: $(EXAMPLE_2))
-	$(info EXAMPLE_3 is: $(EXAMPLE_3))
+	$(info EXAMPLE_1 is: ${EXAMPLE_1})
+	$(info EXAMPLE_2 is: ${EXAMPLE_2})
+	$(info EXAMPLE_3 is: ${EXAMPLE_3})
 
 EXAMPLE_1 := $(if anything,true_result,[false_result])
 EXAMPLE_2 := $(if ,true_result,false_result)
