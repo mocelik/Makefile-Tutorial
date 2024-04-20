@@ -33,7 +33,7 @@ africa asia:
 # Add D to get the directory of an automatic variable
 # Add F to get the filename of an automatic variable
 # Note that these variables need parentheses or braces
-dir1/dir2/file1.txt: dir1/dir2/prereq1 dir1/dir2/prereq2 dir1/dir2/dir3
+dir1/dir2/file1.txt: dir1/dir2/file2.txt dir1/dir2/file3.txt dir1/dir2/dir3
 	@echo "Directory: ${@D}"
 	@echo "Filename:  ${@F}"
 	@echo "Directory: ${^D}"
