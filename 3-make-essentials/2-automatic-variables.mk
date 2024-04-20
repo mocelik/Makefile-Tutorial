@@ -1,4 +1,7 @@
 
+# Automatic variables are variables set automatically in the recipe of a rule.
+# They are not valid in the prerequisite list.
+
 # $@, $< and $^ are by far the most commonly used automatic variables
 target: prereq3
 target: prereq1 prereq2
