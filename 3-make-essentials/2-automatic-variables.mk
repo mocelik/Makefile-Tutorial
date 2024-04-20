@@ -17,9 +17,9 @@ target: prereq3
 prereq%: ;
 
 
-# wild-bear, wild-beast will both match this rule
+# hello-asia, hello-africa will both match this rule
 # stem will be bear and beast respectively.
-wild-%:
+hello-%:
 	@echo Target Name:   $@
 	@echo Wildcard stem: $*
 
@@ -27,7 +27,7 @@ wild-%:
 # You can specify multiple targets per rule with a common recipe.
 # The $@ in the recipe matches which target triggered the rule
 # The rule will run once per every target requested
-lion tiger:
+africa asia:
 	@echo Hello $@
 
 # Add D to get the directory of an automatic variable
