@@ -1,4 +1,24 @@
 
+### Variable Basics ###
+################################################################################
+A:=a
+B := b
+C := c # uh-oh! The space at the end is included
+$(info $A)
+$(info $B)
+$(info [$C]) # Let's put brackets to see what happened
+
+DE := de
+FG := f g
+$(info $DE) # What happened here?
+$(info ${DE} or $(DE))
+$(info $(FG))
+
+$(info )
+
+### Variable Types and Flavors ###
+################################################################################
+
 SIMPLE_VAR := hello
 RECURSIVE_VAR = world
 RECURSIVE_VAR ?= steel
@@ -31,7 +51,7 @@ $(info )
 
 
 ### Recursive variable (and shell) ###
-########################################################################
+################################################################################
 
 # $(shell <cmd>) invokes <cmd> in the shell and evaluates
 # to the output of that command, so the variable below
@@ -44,8 +64,8 @@ $(info Value of RECURSIVE_VAR_DATE: $(value RECURSIVE_VAR_DATE))
 
 $(info )
 
-### Canned Recipes (Multi-line variables) ###
-########################################################################
+### Canned Sequences (Multi-line variables) ###
+################################################################################
 
 # We can also create variables that span multiple lines by defining them
 # using keywords define and endef
@@ -61,7 +81,7 @@ $(info MULTI_LINE_VAR = ${MULTI_LINE_VAR})
 $(info )
 
 ### Dynamic Variable Names ###
-########################################################################
+################################################################################
 
 # You can also dynamically name a variable from another variable
 # Example use case: to create multiple variables with files from
@@ -78,7 +98,7 @@ $(info ${ADJECTIVE} - ${MY_${ADJECTIVE}_VAR})
 $(info )
 
 ### Escaping $ through $$ ###
-########################################################################
+################################################################################
 
 # If you don't want your variable to be expanded immediately, e.g. to
 # have the shell evaluate it, you have to escape the $ with another $
@@ -88,10 +108,5 @@ print-list:
 		echo $$i; \
 	done
 
-# Note: try to avoid shell-specific syntax in general.
-# Also: If you ever need a loop in your recipe, please re-evaluate your
-# design in case you can solve the problem by creating a main target
-# that depends on multiple targets (one for each iteration of the loop)
-# e.g.
-# print-list: one two three
-# one two three: ; echo $@
+# Note: Avoid shell-specific syntax for portability. Especially avoid loops.
+# Replace loops with a target for each loop iteration for better performance.
