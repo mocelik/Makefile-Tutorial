@@ -1,5 +1,8 @@
 do_nothing_target:;@:
 
+### Prefixes and Suffixes ###
+################################################################################
+
 REGIONS := africa asia europe
 $(info REGIONS = [${REGIONS}])
 
@@ -11,6 +14,9 @@ $(info $$(addprefix hello/,[list]): [$(addprefix hello/,${REGIONS})])
 
 $(info )
 
+### Partial Substitutions ###
+################################################################################
+
 # These all replace the .c with .o in REGIONS_C
 $(info $$(patsubst %.c,%.o,[list]): [$(patsubst %.c,%.o,${REGIONS_C})])
 $(info $$([list]:%.c=%.o): [${REGIONS_C:%.c=%.o}])
@@ -18,6 +24,9 @@ $(info $$([list]:.c=.o): [${REGIONS_C:.c=.o}])
 # africa.o asia.o europe.o
 
 $(info )
+
+### Filtering/Matching Patterns ###
+################################################################################
 
 SRC_FILES := dir1/hello.c dir1/world.c dir2/steel.c dir2/foundations.c
 DIR1_SRC_FILES := $(filter dir1/%,${SRC_FILES})
