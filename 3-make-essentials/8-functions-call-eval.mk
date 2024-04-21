@@ -24,7 +24,7 @@ $(info RESULT: [${RESULT}])
 
 # We can use multi-line variables to create more complex functions
 # We'll be able to use this to create new rules in the next step
-define MY_DYNAMIC_RULE=
+define MY_DYNAMIC_RULE
 $1: $2
 	$3
 endef
