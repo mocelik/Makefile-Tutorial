@@ -1,6 +1,6 @@
 
 ### Warm-up with more rule syntax ###
-########################################################################
+################################################################################
 
 # Standard rule syntax:
 # target1 target2: prereq1 prereq2
@@ -28,7 +28,7 @@ order-only-prereq:
 
 
 ### Prefixes ###
-########################################################################
+################################################################################
 
 # @ does not print the recipe before it executes
 hide_recipe:
@@ -44,7 +44,7 @@ run_during_dryrun:
 
 
 ### Pattern Rules (Wildcard Targets) ###
-########################################################################
+################################################################################
 
 # hello-asia
 hello-%:
@@ -63,7 +63,7 @@ hello-world:
 
 
 ### Prerequisite Handling ###
-########################################################################
+################################################################################
 
 # prerequisites on other target lines are appended to
 # the original rule
@@ -77,12 +77,12 @@ dep%:
 
 
 ### Static Pattern Rules ###
-########################################################################
+################################################################################
 
 # Useful when you want to automatically generate prerequisites based
 # on the names of targets
 # General Syntax:
-# target-pattern-1 target-pattern-2 ... : target-pattern-% : prereq-patterns-with-%
+# target-pattern-1 target-pattern-2 : target-pattern-% : prereq-patterns-with-%
 
 asia-trip europe-trip: %-trip: static-dependency-%
 	@echo Trip to $*
@@ -95,7 +95,7 @@ static-dependency-europe:
 
 
 ### PHONY Targets ###
-########################################################################
+################################################################################
 .PHONY: not-a-file
 not-a-file:
 	echo "This recipe does not create a file and it doesn't need to."

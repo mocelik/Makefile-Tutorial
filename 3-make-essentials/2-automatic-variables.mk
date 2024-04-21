@@ -30,6 +30,7 @@ hello-%:
 africa asia:
 	@echo Hello $@
 
+
 # Add D to get the directory of an automatic variable
 # Add F to get the filename of an automatic variable
 # Note that these variables need parentheses or braces
