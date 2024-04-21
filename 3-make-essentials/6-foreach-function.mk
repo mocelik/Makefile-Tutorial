@@ -17,3 +17,8 @@ hello-all: ${HELLO-REGIONS}
 #	@echo $@
 ${HELLO-REGIONS}:
 	@echo $@
+
+# Will this create the expected hi-${REGION} rules?
+# Try it out and see why not.
+# Refer to the eval function to get it working properly
+$(foreach REGION,${REGIONS}, hi-${REGION}: ; echo $$@ )
