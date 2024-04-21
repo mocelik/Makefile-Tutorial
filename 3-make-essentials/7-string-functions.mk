@@ -1,20 +1,21 @@
+do_nothing_target:;@:
 
-PLANETS := mercury venus earth mars jupiter saturn uranus neptune pluto
-$(info PLANETS = [${PLANETS}])
+REGIONS := africa asia europe
+$(info REGIONS = [${REGIONS}])
 
-PLANETS_C := $(addsuffix .c, ${PLANETS})
-$(info $$(addsuffix .c,[list]): [${PLANETS_C}])
-$(info $$(addprefix hello/,[list]): [$(addprefix hello/,${PLANETS})])
-# addsuffix .c: mercury.c venus.c earth.c mars.c ...
-# addprefix hello/: hello/mercury hello/venus hello/earth hello/mars ...
+REGIONS_C := $(addsuffix .c, ${REGIONS})
+$(info $$(addsuffix .c,[list]): [${REGIONS_C}])
+$(info $$(addprefix hello/,[list]): [$(addprefix hello/,${REGIONS})])
+# addsuffix .c: africa.c asia.c europe.c
+# addprefix hello/: hello/africa hello/asia hello/europe
 
 $(info )
 
-# These all replace the .c with .o in PLANETS_C
-$(info $$(patsubst %.c,%.o,[list]): [$(patsubst %.c,%.o,${PLANETS_C})])
-$(info $$([list]:%.c=%.o): [${PLANETS_C:%.c=%.o}])
-$(info $$([list]:.c=.o): [${PLANETS_C:.c=.o}])
-# mercury.o venus.o earth.o mars.o ...
+# These all replace the .c with .o in REGIONS_C
+$(info $$(patsubst %.c,%.o,[list]): [$(patsubst %.c,%.o,${REGIONS_C})])
+$(info $$([list]:%.c=%.o): [${REGIONS_C:%.c=%.o}])
+$(info $$([list]:.c=.o): [${REGIONS_C:.c=.o}])
+# africa.o asia.o europe.o
 
 $(info )
 

@@ -1,10 +1,16 @@
+do_nothing_target:;@:
 
 # $(foreach ...) below is a function with 3 parameters passed to it.
 # Most functions evaluate ("return") a string, such as $(foreach ...) below.
 # Some functions, like $(shell ...) or $(info ...) have side-effects.
-PLANETS := mercury venus earth mars jupiter saturn uranus neptune pluto
-HELLO-PLANETS := $(foreach planet,${PLANETS},hello-${planet})
-$(info HELLO-PLANETS is: [${HELLO-PLANETS}])
+REGIONS := africa asia europe
+define HELLO_REGION_RULE
+hello-${REGION}:
+	@echo $$@
+endef
+$(foreach REGION,${REGIONS},$(eval ${HELLO_REGION_RULE}))
+HELLO-REGIONS := $(foreach REGION,${REGIONS},hello-${REGION})
+$(info HELLO-REGIONS is: [${HELLO-REGIONS}])
 $(info )
 
 # We can create our own "functions" by using variables that refer to $1, $2 etc
