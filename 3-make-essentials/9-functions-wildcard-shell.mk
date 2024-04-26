@@ -19,11 +19,14 @@ SHELL_C := $(shell find . -type f -name "*.c")
 $(info SHELL_C is [${SHELL_C}])
 
 
-### Our own recursive wildcard ***
+### Our own recursive wildcard function ***
 ################################################################################
 
+# Usage:
+# $(call rwildcard-dir,<directory>,<extension>)
+# $(call rwildcard,<extension>)
 define rwildcard-dir
-$(wildcard $1/*$2)$(foreach d,$(wildcard $1/*),$(call rwildcard-dir,${d},$2))
+$(wildcard $1/*$2)$(foreach d,$(wildcard $1/*),$(call rwildcard-dir,$d,$2))
 endef
 rwildcard = $(strip $(call rwildcard-dir,.,$1))
 
