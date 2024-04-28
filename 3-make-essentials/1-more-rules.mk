@@ -58,8 +58,29 @@ hello%world:
 %-world:
 	@echo "Matched %-world wildcard rule. You added [$*]"
 
+# Use an explicit target to overwrite a specific pattern rule
 hello-world:
-	@echo "Direct-match rules always take precedence over wildcards"
+	@echo "Explicit target rules always take precedence over wildcards"
+
+# Pattern rules can have prerequisites based on the same pattern
+pattern-% : prerequisite-%
+
+### Static Pattern Rules ###
+################################################################################
+
+# Useful when you want to automatically generate prerequisites based on the
+# names of targets that are already known (not a pattern rule)
+# General Syntax:
+# target-pattern-1 target-pattern-2 : target-pattern-% : prereq-patterns-with-%
+
+asia-trip europe-trip: %-trip: static-dependency-%
+	@echo Trip to $*
+
+static-dependency-asia:
+	@echo Packing bags for asia
+
+static-dependency-europe:
+	@echo Excited to visit europe
 
 
 ### Prerequisite Handling ###
@@ -74,24 +95,6 @@ multiple-prereqs: dep1
 
 dep%:
 	@echo "Recipe for Dependency $*"
-
-
-### Static Pattern Rules ###
-################################################################################
-
-# Useful when you want to automatically generate prerequisites based
-# on the names of targets
-# General Syntax:
-# target-pattern-1 target-pattern-2 : target-pattern-% : prereq-patterns-with-%
-
-asia-trip europe-trip: %-trip: static-dependency-%
-	@echo Trip to $*
-
-static-dependency-asia:
-	@echo Packing bags for asia
-
-static-dependency-europe:
-	@echo Excited to visit europe
 
 
 ### PHONY Targets ###
