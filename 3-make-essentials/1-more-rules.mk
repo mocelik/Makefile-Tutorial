@@ -48,15 +48,15 @@ run_during_dryrun:
 
 # hello-asia
 hello-%:
-	@echo "Matched hello-% wildcard rule. You added [$*]"
+	@echo "Matched hello-% pattern rule. You added [$*]"
 
 # hello~world
 hello%world:
-	@echo "Matched hello%world wildcard rule. You added [$*]"
+	@echo "Matched hello%world pattern rule. You added [$*]"
 
 # hi-world
 %-world:
-	@echo "Matched %-world wildcard rule. You added [$*]"
+	@echo "Matched %-world pattern rule. You added [$*]"
 
 # Use an explicit target to overwrite a specific pattern rule
 hello-world:
@@ -64,6 +64,10 @@ hello-world:
 
 # Pattern rules can have prerequisites based on the same pattern
 pattern-% : prerequisite-%
+	@echo "Matched pattern-% pattern rule. You added [$*]"
+
+prerequisite-%:
+	@echo "Matched prerequisite-% pattern rule. You added [$*]"
 
 ### Static Pattern Rules ###
 ################################################################################
