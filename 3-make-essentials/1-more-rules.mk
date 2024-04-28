@@ -48,26 +48,26 @@ run_during_dryrun:
 
 # hello-asia
 hello-%:
-	@echo "Matched hello-% pattern rule. You added [$*]"
+	@echo "[$@] matched hello-% pattern rule"
 
 # hello~world
 hello%world:
-	@echo "Matched hello%world pattern rule. You added [$*]"
+	@echo "[$@] matched hello%world pattern rule"
 
 # hi-world
 %-world:
-	@echo "Matched %-world pattern rule. You added [$*]"
+	@echo "[$@] matched %-world pattern rule"
 
-# Use an explicit target to overwrite a specific pattern rule
+# Use an explicit rule to overwrite a specific pattern rule
 hello-world:
-	@echo "Explicit target rules always take precedence over wildcards"
+	@echo "Explicit rules take precedence over pattern rules"
 
 # Pattern rules can have prerequisites based on the same pattern
 pattern-% : prerequisite-%
-	@echo "Matched pattern-% pattern rule. You added [$*]"
+	@echo "[$@] matched pattern-% pattern rule"
 
 prerequisite-%:
-	@echo "Matched prerequisite-% pattern rule. You added [$*]"
+	@echo "[$@] matched prerequisite-% pattern rule"
 
 ### Static Pattern Rules ###
 ################################################################################
@@ -90,8 +90,9 @@ static-dependency-europe:
 ### Prerequisite Handling ###
 ################################################################################
 
-# prerequisites on other target lines are appended to
-# the original rule
+# Prerequisites on other target lines are appended to the rule with a recipe
+# Note that this does NOT occur for pattern rules
+
 multiple-prereqs: dep2
 
 multiple-prereqs: dep1
