@@ -1,22 +1,34 @@
 do_nothing_target:;@:
 
-### Wildcard ###
+### Last-Resort Default Rule ###
 ################################################################################
-WILDCARD_MK := $(wildcard *.mk)
-$(info WILDCARD_MK is [${WILDCARD_MK}])
 
-WILDCARD_C := $(wildcard *.c)
-$(info WILDCARD_C is [${WILDCARD_C}])
+# % matches anything (and everything) that doesn't already have a rule
+%::
+	@echo $@ has prerequisites [$^]
 
 
 ### Shell ###
 ################################################################################
 
-SHELL_MK := $(shell find . -type f -name "*.mk")
-$(info SHELL_MK is [${SHELL_MK}])
+shell: shell-mk-function shell-c-function
+	@:
 
-SHELL_C := $(shell find . -type f -name "*.c")
-$(info SHELL_C is [${SHELL_C}])
+shell-mk-function: $(shell find . -type f -name "*.mk")
+shell-c-function: $(shell find . -type f -name "*.c")
+
+
+### Wildcard ###
+################################################################################
+
+wildcard: $(addprefix wildcard-,mk-glob mk-function c-glob c-function)
+	@:
+
+wildcard-mk-glob: *.mk
+wildcard-mk-function: $(wildcard *.mk)
+
+wildcard-c-glob: *.c
+wildcard-c-function: $(wildcard *.c)
 
 
 ### Our own recursive wildcard function ***
@@ -30,15 +42,14 @@ $(wildcard $1/*$2)$(foreach d,$(wildcard $1/*),$(call rwildcard-dir,$d,$2))
 endef
 rwildcard = $(strip $(call rwildcard-dir,.,$1))
 
-RWILDCARD_MK := $(call rwildcard,.mk)
-$(info RWILDCARD_MK is [${RWILDCARD_MK}])
 
-RWILDCARD_C  := $(call rwildcard,.c)
-$(info RWILDCARD_C is [${RWILDCARD_C}])
+rwildcard: rwildcard-mk rwildcard-c
+	@:
 
+rwildcard-mk: $(call rwildcard,.mk)
+rwildcard-c: $(call rwildcard,.c)
 
-# Note that there are other (probably better) implementations of a recursive
-# wildcard online.
+# Note that there are better implementations of a recursive wildcard online.
 # e.g. search-down: https://github.com/markpiffer/gmtt/blob/master/gmtt.mk#L1515
 # or wildcard-rec:  https://github.com/markpiffer/gmtt/blob/master/gmtt.mk#L1579
 # or https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
