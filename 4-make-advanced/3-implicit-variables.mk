@@ -1,24 +1,5 @@
 do_nothing_target:;@:
 
-### Make-Related Variables ###
-################################################################################
-
-# The Make program used (make vs /usr/bin/make)
-$(info MAKE: ${MAKE})
-
-# List of included/ran Makefiles
-$(info MAKEFILE_LIST: ${MAKEFILE_LIST})
-
-# Some (not all) flags passed in from CLI
-$(info MAKEFLAGS: ${MAKEFLAGS})
-
-# targets ("goals") passed in from CLI
-$(info MAKECMDGOALS: ${MAKECMDGOALS})
-
-# current working directory of the make process
-$(info CURDIR: ${CURDIR})
-
-
 ### Variables Used by Implicit Rules (and by Convention) ###
 ################################################################################
 
@@ -37,3 +18,28 @@ $(info CPPFLAGS: ${CPPFLAGS})	# Flags for the C Pre-Processor
 $(info CXXFLAGS: ${CXXFLAGS})	# Flags for the C++ Compiler
 $(info LDFLAGS: ${LDFLAGS})		# Flags for the C/C++ Linker
 $(info LDLIBS: ${LDLIBS})		# Libraries used by 'ld'
+
+
+### Make-Related Variables ###
+################################################################################
+
+# The current working directory of the make process
+$(info CURDIR: ${CURDIR})
+
+# The Make program used (make vs /usr/bin/make)
+$(info MAKE: ${MAKE})
+
+# List of included/ran Makefiles
+$(info MAKEFILE_LIST: ${MAKEFILE_LIST})
+
+# Some (not all) flags passed in from CLI
+$(info MAKEFLAGS: ${MAKEFLAGS})
+
+# Targets ("goals") passed in from CLI
+$(info MAKECMDGOALS: ${MAKECMDGOALS})
+
+
+# More information on implicit, special and make-specific variables:
+# https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html
+# https://www.gnu.org/software/make/manual/html_node/Special-Variables.html
+# https://www.gnu.org/software/make/manual/html_node/Recursion.html
