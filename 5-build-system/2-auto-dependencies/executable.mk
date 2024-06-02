@@ -20,16 +20,17 @@ $(error BUILD_DIR must be set to a directory to store artifacts in)
 endif
 
 OBJECT_FILES := $(addprefix ${BUILD_DIR}/,$(patsubst %.cpp,%.o,${SOURCE_FILES}))
-OBJECT_DIRECTORY_MIRROR := $(sort $(dir ${OBJECT_FILES})) # sort gives uniques
+OBJECT_DIRECTORY_MIRROR_DIRS := $(sort $(dir ${OBJECT_FILES}))
+# sort removes duplicate values
 
-${OBJECT_DIRECTORY_MIRROR}:
+.PHONY: all
+all: ${BUILD_DIR}/${EXECUTABLE_NAME}
+
+${OBJECT_DIRECTORY_MIRROR_DIRS} ${BUILD_DIR}:
 	mkdir -p $@
 
 $(foreach obj,${OBJECT_FILES},\
 	$(eval ${obj}: | $(dir ${obj})))
-
-${BUILD_DIR}:
-	@mkdir -p $@
 
 ${BUILD_DIR}/${EXECUTABLE_NAME}: ${OBJECT_FILES} | ${BUILD_DIR}
 	$(CXX) -o $@ $^
