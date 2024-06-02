@@ -31,8 +31,8 @@ africa.o: africa.c
 
 # The recipes are built-in to make as part of implicit rules.
 # Implicit rules for C programs can be considered to be of the form:
-# n.o: n.c ; $(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
-# n:   n.o ; $(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< $(LDLIBS) -o $@
+# %.o: %.c ; $(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+# %:   %.o ; $(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< $(LDLIBS) -o $@
 
 
 ### Rule Chaining ###
