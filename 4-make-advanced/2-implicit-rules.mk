@@ -3,39 +3,48 @@ $(info Try running make with --debug=i to see implicit debug info)
 $(info Also try running with make --no-builtin-rules)
 $(info )
 
-### Implicit Rule and Rule Chaining ###
+# Lets set our default rule to build 'africa' and 'asia', which will be built
+# using implicit rules (and rule chaining for asia)
+.PHONY: all
+all:
+
+### Implicit Rule ###
 ################################################################################
 
-# Lets set our default rule to build 'africa' and 'asia' - but are they defined
-# anywhere?
-# Their recipes are built-in to make as part of implicit rules
-.PHONY: all
-all: africa asia
+# List ONLY the prerequisites and not the recipes
+all: africa
+africa: africa.o
+africa.o: africa.c
 
-# This rule allows make to create C source files
+# Create any C source file that will print HelloWorld from $@
+# This rule will be re-used in the rule-chaining section below
 %.c:
-	printf "#include <stdio.h>\n\
+	@echo "Creating $@"
+	@printf "#include <stdio.h>\n\
 	int main(void) {\n\
 		printf(\"HelloWorld from $@\\\\n\");\n\
 		return 0;\n\
 	}\n" > $@
 
-# Beyond that, there are *implicit rules* on how to compile C source files
-# into object files, and on how to link object files into executables.
-# Rule-chaining is where Make will recognize that an application named africa
-# can be made from an object file africa.o, which can be made from a source
-# file named africa.c, which can be made from the above rule.
-# So the dependency chain is: [africa <- africa.o <- africa.c]
-# africa.o and africa.c are intermediate files, and will be deleted at the end
-# since they were never explicitly mentioned (only implicitly determined).
-
-# Explicitly mentioned files will no longer be "intermediate" and will be kept
-asia.o: asia.c
+# The recipes are built-in to make as part of implicit rules.
+# Implicit rules for C programs can be considered to be of the form:
+# %.o: %.c ; $(CC) $(CPPFLAGS) $(CFLAGS) -c
+# %: %.o ; $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $< $(LOADLIBES) $(LDLIBS)
 
 
-clean:
+### Rule Chaining ###
+################################################################################
+
+# Rules can be "chained"; make knows that 'asia' can be made from 'asia.o',
+# which can be made from 'asia.c', which matches the pattern rule %.c above.
+# [asia <- asia.o <- asia.c = %.c]
+# asia.o and asia.c are intermediate files, and will be deleted at the end since
+# they were never explicitly mentioned (only implicitly determined).
+all: asia
+
+
+clean::
 	rm -f africa asia *.o *.c
-
 
 # More information on implicit rules:
 # https://www.gnu.org/software/make/manual/html_node/Catalogue-of-Rules.html
