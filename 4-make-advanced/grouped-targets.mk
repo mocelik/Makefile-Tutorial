@@ -13,7 +13,7 @@ $(info )
 # For demonstration purposes, call all targets and delete the resulting files
 # to allow the user to try running it again
 all: a b c   d e f
-	@rm $^
+	rm $^
 
 # Grouped target
 a b c &:
@@ -31,7 +31,7 @@ d e f:
 # Make) vs the grouped-target above. If Make is run single-threaded, then they
 # may show similar behaviour, but the grouped-target avoids having to check the
 # last-modified-time of the other updated-targets
-#
-#
-# Some more reading on how grouped targets are different than normal ones:
+
+
+# More information on grouped targets:
 # https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html

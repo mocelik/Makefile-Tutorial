@@ -6,22 +6,36 @@ $(info )
 ### Implicit Rule and Rule Chaining ###
 ################################################################################
 
-# Default target is steel, but where is the recipe that builds it?
-# That recipe is built-in to make; it is implicit.
+# Lets set our default rule to build 'africa' and 'asia' - but are they defined
+# anywhere?
+# Their recipes are built-in to make as part of implicit rules
 .PHONY: all
-all: steel foundations
+all: africa asia
 
-# By explicitly stating these file names, they will not be considered
-# intermediate files anymore, and will persist if created by a built-in rule
-steel: steel.o
-steel.o: steel.c
-
+# This rule allows make to create C source files
 %.c:
 	printf "#include <stdio.h>\n\
 	int main(void) {\n\
-		printf(\"HelloWorld from $@\");\n\
+		printf(\"HelloWorld from $@\\\\n\");\n\
 		return 0;\n\
 	}\n" > $@
 
+# Beyond that, there are *implicit rules* on how to compile C source files
+# into object files, and on how to link object files into executables.
+# Rule-chaining is where Make will recognize that an application named africa
+# can be made from an object file africa.o, which can be made from a source
+# file named africa.c, which can be made from the above rule.
+# So the dependency chain is: [africa <- africa.o <- africa.c]
+# africa.o and africa.c are intermediate files, and will be deleted at the end
+# since they were never explicitly mentioned (only implicitly determined).
+
+# Explicitly mentioned files will no longer be "intermediate" and will be kept
+asia.o: asia.c
+
+
 clean:
-	rm -f steel foundations *.o *.c
+	rm -f africa asia *.o *.c
+
+
+# More information on implicit rules:
+# https://www.gnu.org/software/make/manual/html_node/Catalogue-of-Rules.html

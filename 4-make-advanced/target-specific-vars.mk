@@ -7,7 +7,7 @@ POSSIBLE_CONFIGS := debug release coverage
 ### Target-Specific Variables ###
 ################################################################################
 
-all-specific: target-1 target-2 target-3
+all-tsv: target-1 target-2 target-3
 	@:
 
 target-%:
@@ -67,5 +67,5 @@ $(foreach num,2 3,\
 		$(eval improved-${num}-${config}: improved-4-${config})))
 
 
-# More information on target-specific variables here:
+# More information on target-specific variables:
 # https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html
