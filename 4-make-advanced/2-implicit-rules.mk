@@ -7,16 +7,19 @@ $(info )
 # using implicit rules (and rule chaining for asia)
 .PHONY: all
 all:
+clean::
+	rm -f africa asia *.o *.c
+
 
 ### Implicit Rule ###
 ################################################################################
 
-# List ONLY the prerequisites and not the recipes
+# Note that we're only listing the prerequisites and not the recipes!
 all: africa
 africa: africa.o
 africa.o: africa.c
 
-# Create any C source file that will print HelloWorld from $@
+# Recipe to create any C source file that will print HelloWorld from $@
 # This rule will be re-used in the rule-chaining section below
 %.c:
 	@echo "Creating $@"
@@ -28,8 +31,8 @@ africa.o: africa.c
 
 # The recipes are built-in to make as part of implicit rules.
 # Implicit rules for C programs can be considered to be of the form:
-# %.o: %.c ; $(CC) $(CPPFLAGS) $(CFLAGS) -c
-# %: %.o ; $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $< $(LOADLIBES) $(LDLIBS)
+# n.o: n.c ; $(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+# n:   n.o ; $(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< $(LDLIBS) -o $@
 
 
 ### Rule Chaining ###
@@ -42,9 +45,6 @@ africa.o: africa.c
 # they were never explicitly mentioned (only implicitly determined).
 all: asia
 
-
-clean::
-	rm -f africa asia *.o *.c
 
 # More information on implicit rules:
 # https://www.gnu.org/software/make/manual/html_node/Catalogue-of-Rules.html
