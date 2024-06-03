@@ -48,8 +48,9 @@ weird_recipe:
 # Make will always try to rebuild the running Makefile if possible and if the
 # current Makefile is out of date. Note: This means Makefile will match a catch-
 # all rule (%), so be careful!
-# Try adding default_target as a prerequisite to the rule below
+# Try adding a prerequisite to the rule below
 %.mk:
+	@echo "Rebuilding Makefile"
 	@echo '$$(info Surprise!)' >> $@
 
 
