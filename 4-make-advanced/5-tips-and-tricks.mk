@@ -1,6 +1,8 @@
 
-# This file lists some useful special targets and variables. It is not 
-# exhaustive; this is a small subset of Make's special targets and variables.
+# This file lists some useful special targets, special variables, and other
+# tips, tricks, or "gotchas" of Makefiles. This file is not exhaustive; there
+# are other special targets, variables, and unexpected default behaviours.
+
 
 ### .PHONY ###
 # The targets that .PHONY depends on are called PHONY targets.
@@ -36,13 +38,25 @@ default_target:
 ### .RECIPEPREFIX ###
 # If you have a special hatred for tabs and would like to confuse others or
 # flaunt your knowledge of Make, you can change the default recipe prefix.
-# You may want to export this variable to have consistent makefiles...
-# or don't use it at all.
 .RECIPEPREFIX := >
 weird_recipe:
 >echo "This looks weird."
+.RECIPEPREFIX :=
+
+
+### Rebuilding Makefiles ###
+# Make will always try to rebuild the running Makefile if possible and if the
+# current Makefile is out of date. Note: This means Makefile will match a catch-
+# all rule (%), so be careful!
+# Try adding a prerequisite to the rule below
+%.mk:
+	@echo "Rebuilding Makefile"
+	@echo '$$(info Surprise!)' >> $@
 
 
 # More information on special targets and variables:
 # https://www.gnu.org/software/make/manual/html_node/Special-Targets.html
 # https://www.gnu.org/software/make/manual/html_node/Special-Variables.html
+
+# More information on rebuilding Makefiles:
+# https://www.gnu.org/software/make/manual/html_node/Remaking-Makefiles.html
