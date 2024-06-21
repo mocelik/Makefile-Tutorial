@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "dir1/hello.h"
 #include "dir1/com/common.h"
 #include "dir2/world.h"
