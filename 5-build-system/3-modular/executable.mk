@@ -16,7 +16,7 @@ endif
 # 	LDFLAGS_
 define add_executable_target=
 $(call internal_add_executable_target,$1,\
-	$(sort $(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${SRC_FILES})))\
+	$(sort $(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${2})))\
 	)
 endef
 
