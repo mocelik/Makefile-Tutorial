@@ -44,7 +44,6 @@ $(sort $(dir ${COBJS_$1}) ${BIN_DIR}):
 -include $(patsubst %.o,%.d,${COBJS_$1})
 
 .PHONY: clean-$1
-clean: clean-$1
 clean-$1:
 	${RM} -r ${BIN_DIR}/$1 ${COBJS_$1}
 endef

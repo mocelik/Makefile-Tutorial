@@ -8,10 +8,9 @@ BIN_DIR := ${BUILD_DIR}/bin
 ### General Targets ###
 ################################################################################
 
-.PHONY: all clean purge
+.PHONY: all clean
 all:
 clean:
-purge:
 	${RM} -r ${BUILD_DIR}
 
 ### Main Logic ###
