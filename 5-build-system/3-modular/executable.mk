@@ -24,17 +24,9 @@ CDEPS_FLAGS := -MMD -MP
 # 	CPPFLAGS_${appname}
 # 	LDFLAGS_${appname}
 # 	LDLIBS_${appname}
-define add_executable_target=
+define add_c_executable_target=
 $(eval COBJS_$1 := $(sort \
 	$(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${CSRCS_$1}))))
-
-$(eval CXXOBJS_$1 := $(sort \
-	$(addprefix ${BUILD_DIR}/,\
-	$(patsubst %.cpp,%.o,$(filter %.cpp,${CXXSRCS_$1})))))
-
-$(eval CXXOBJS_$1 += $(sort \
-	$(addprefix ${BUILD_DIR}/,\
-	$(patsubst %.cc,%.o,$(filter %.cc,${CXXSRCS_$1})))))
 
 all: $1
 .PHONY: $1
