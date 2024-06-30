@@ -18,8 +18,8 @@ clean:
 
 include executable.mk
 
-APPNAME := steel
+APPNAME := app1
 CFLAGS_${APPNAME} := -Wall
-CSRCS_${APPNAME}  := src/main.c src/dir1/hello.c src/dir2/world.c\
-	src/dir2/extra.c src/dir1/com/common.c
+CSRCS_${APPNAME}  := app1/main.c app1/dir1/hello.c app1/dir2/world.c\
+	app1/dir2/extra.c app1/dir1/com/common.c
 $(eval $(call add_c_executable_target,${APPNAME}))
