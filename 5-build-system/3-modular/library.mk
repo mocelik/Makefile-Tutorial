@@ -39,7 +39,7 @@ ${LIB_DIR}/${LIBNAME_$1}: ${COBJS_$1} | ${LIB_DIR}
 	${CC} ${LDFLAGS_$1} -shared $$^ -o $$@
 
 # Rule to Compile C
-$(eval CFLAGS_$1 += -fPIC)
+$(eval CFLAGS_$1 += -fpic)
 ${COBJS_$1}: ${BUILD_DIR}/%.o : %.c
 	${CC} ${CDEPS_FLAGS} ${CFLAGS_$1} ${CPPFLAGS_$1} -c $$< -o $$@
 
