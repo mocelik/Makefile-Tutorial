@@ -18,6 +18,7 @@ clean:
 ################################################################################
 
 include executable.mk
+include library.mk
 
 APPNAME := app1
 CFLAGS_${APPNAME} := -Wall
@@ -33,13 +34,6 @@ LDFLAGS_${APPNAME} := -L${LIB_DIR}
 $(eval $(call add_c_executable_target,${APPNAME}))
 
 
-APPNAME := libmylib.so
-
-${BUILD_DIR}/${CSRCS_${APPNAME}:.c=.o}: ${BUILD_DIR}/%.o : %.c
-	mkdir -p ${@D}
-	${CC} -c $< -o $@
-
-${LIB_DIR}/${APPNAME}: ${BUILD_DIR}/${CSRCS_${APPNAME}:.c=.o}
-	mkdir -p ${@D}
-	${CC} -shared $^ -o $@
-	sudo ldconfig ${CURDIR}/${LIB_DIR}
+APPNAME := mylib
+CSRCS_${APPNAME}  := lib1/mylib_source.c
+$(eval $(call add_c_library_target,${APPNAME}))
