@@ -24,6 +24,7 @@ CDEPS_FLAGS := -MMD -MP
 # 	CPPFLAGS_${appname}
 # 	LDFLAGS_${appname}
 # 	LDLIBS_${appname}
+#	DEPS_${appname}
 define add_c_executable_target=
 $(eval COBJS_$1 := $(sort \
 	$(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${CSRCS_$1}))))
@@ -34,8 +35,13 @@ all: $1
 $1: ${BIN_DIR}/$1
 
 # Rule to Link C
-${BIN_DIR}/$1: ${COBJS_$1} | ${BIN_DIR}
-	${CC} ${LDFLAGS_$1} $$^ -o $$@ ${LDLIBS_$1}
+${BIN_DIR}/$1: ${COBJS_$1} ${DEPS_$1} | ${BIN_DIR}
+	${CC} ${LDFLAGS_$1} ${COBJS_$1} -o $$@ ${LDLIBS_$1}
+
+# Each object should individually depend on DEPS_$1
+# E.g. if there is a dependency on a library, each object depends on the header
+# files that will be created from that library
+${COBJS_$1}: ${DEPS_$1}
 
 # Rule to Compile C
 ${COBJS_$1}: ${BUILD_DIR}/%.o : %.c

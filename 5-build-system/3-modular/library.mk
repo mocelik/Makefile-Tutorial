@@ -12,6 +12,11 @@ $(warning LIB_DIR not set or empty, defaulting to ${BUILD_DIR}/lib)
 LIB_DIR := ${BUILD_DIR}/lib
 endif
 
+ifeq (${INC_DIR},)
+$(warning INC_DIR not set or empty, defaulting to ${BUILD_DIR}/include)
+INC_DIR := ${BUILD_DIR}/include
+endif
+
 CDEPS_FLAGS := -MMD -MP
 
 ### Functions ###
@@ -23,6 +28,7 @@ CDEPS_FLAGS := -MMD -MP
 # 	CFLAGS_${appname}
 # 	CPPFLAGS_${appname}
 # 	LDFLAGS_${appname}
+#	DEPS_${appname}
 define add_c_library_target=
 $(eval COBJS_$1 := $(sort \
 	$(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${CSRCS_$1}))))
@@ -33,10 +39,11 @@ all: $1
 .PHONY: $1
 $1: ${LIB_DIR}/${LIBNAME_$1}
 
-# Rule to Link C
+# Rule to Link C to shared object and publish headers
 # TODO: Is there any use for ${LDFLAGS_$1} here?
-${LIB_DIR}/${LIBNAME_$1}: ${COBJS_$1} | ${LIB_DIR}
-	${CC} ${LDFLAGS_$1} -shared $$^ -o $$@
+${LIB_DIR}/${LIBNAME_$1}: ${COBJS_$1} ${DEPS_$1} | ${LIB_DIR}
+	${CC} ${LDFLAGS_$1} -shared ${COBJS_$1} -o $$@
+	cp -r ${HEADER_DIR_$1} ${INC_DIR}
 
 # Rule to Compile C
 $(eval CFLAGS_$1 += -fpic)
@@ -54,5 +61,5 @@ $(sort $(dir ${COBJS_$1}) ${LIB_DIR}):
 # Rules to clean
 .PHONY: clean-$1
 clean-$1:
-	${RM} -r ${BIN_DIR}/$1 ${COBJS_$1}
+	${RM} -r ${LIB_DIR}/${LIBNAME_$1} ${COBJS_$1} ${INC_DIR}/${HEADER_DIR_$1}
 endef
