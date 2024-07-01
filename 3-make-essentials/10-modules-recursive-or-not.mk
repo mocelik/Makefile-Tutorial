@@ -3,8 +3,11 @@ do_nothing_target:;@:
 ### Setup another Makefile with an 'all' target ###
 ################################################################################
 
-EXTERNAL_MAKEFILE := 10-other-makefile.mk
+EXTERNAL_MAKEFILE := other-make-module.mk
 EXTERNAL_TARGET := all
+clean:
+	@rm -f ${EXTERNAL_MAKEFILE}
+
 ${EXTERNAL_MAKEFILE}:
 	@printf "${EXTERNAL_TARGET}:\n\
 	\t@echo 'Hello!'" > $@
