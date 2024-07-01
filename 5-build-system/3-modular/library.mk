@@ -53,7 +53,7 @@ ${COBJS_$1}: ${BUILD_DIR}/%.o : %.c
 # Rule to create build directory mirror
 $(foreach OBJ_FILE,${COBJS_$1},$(eval ${OBJ_FILE}: | $(dir ${OBJ_FILE})))
 $(sort $(dir ${COBJS_$1}) ${LIB_DIR}):
-	mkdir -p $$@
+	@mkdir -p $$@
 
 # Rules (auto-generated) for object dependencies
 -include $(patsubst %.o,%.d,${COBJS_$1})
