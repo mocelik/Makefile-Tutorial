@@ -3,12 +3,14 @@ do_nothing_target:;@:
 ### Setup another Makefile with a 'hello' target ###
 ################################################################################
 
+# Normally you would write the other Makefile by hand, but for this tutorial
+# lets generate the other Makefile automatically to illustrate more concepts.
 EXTERNAL_MAKEFILE := other-make-module.mk
 EXTERNAL_TARGET := hello
 clean:
 	@rm -f ${EXTERNAL_MAKEFILE}
 
-# Lets create a rule to create another Makefile with an ${EXTERNAL_TARGET} rule:
+# Here's the rule to create another Makefile with the ${EXTERNAL_TARGET} rule:
 # Note that this rule may run in the background if you use tab autocomplete.
 ${EXTERNAL_MAKEFILE}:
 	@echo "Creating other Makefile [$@] with rule [${EXTERNAL_TARGET}]"
