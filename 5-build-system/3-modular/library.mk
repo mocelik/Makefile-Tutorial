@@ -1,37 +1,19 @@
-
-### Variables ###
-################################################################################
-
-ifeq (${BUILD_DIR},)
-$(warning BUILD_DIR not set or empty, defaulting to build)
-BUILD_DIR := build
-endif
-
-ifeq (${LIB_DIR},)
-$(warning LIB_DIR not set or empty, defaulting to ${BUILD_DIR}/lib)
-LIB_DIR := ${BUILD_DIR}/lib
-endif
-
-ifeq (${INC_DIR},)
-$(warning INC_DIR not set or empty, defaulting to ${BUILD_DIR}/include)
-INC_DIR := ${BUILD_DIR}/include
-endif
-
-CDEPS_FLAGS := -MMD -MP
+include common.mk
 
 ### Functions ###
 ################################################################################
 
-# $1 -> appname
+# $1 -> library name (e.g. 'x' for 'libx.so')
 # Uses:
-# 	CSRCS_${appname}
-# 	CFLAGS_${appname}
-# 	CPPFLAGS_${appname}
-# 	LDFLAGS_${appname}
-#	DEPS_${appname}
+# 	${LIB_DIR}
+# 	${CSRCS_$1}
+# 	${CFLAGS_$1}
+# 	${CPPFLAGS_$1}
+# 	${LDFLAGS_$1}
+# 	${DEPS_$1}
+# 	${HEADER_DIR_$1}
 define add_c_library_target=
-$(eval COBJS_$1 := $(sort \
-	$(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${CSRCS_$1}))))
+
 $(eval LIBNAME_$1 := lib$1.so)
 
 # Add this target to all
@@ -39,24 +21,17 @@ all: $1
 .PHONY: $1
 $1: ${LIB_DIR}/${LIBNAME_$1}
 
+# Rule to Compile C
+$(eval CFLAGS_$1 += -fpic)
+$(eval $(call add_c_compile_target,$1))
+
 # Rule to Link C to shared object and publish headers
 # TODO: Is there any use for ${LDFLAGS_$1} here?
+$(eval LDFLAGS_$1 += -shared)
 ${LIB_DIR}/${LIBNAME_$1}: ${COBJS_$1} ${DEPS_$1} | ${LIB_DIR}
 	${CC} ${LDFLAGS_$1} -shared ${COBJS_$1} -o $$@
 	cp -r ${HEADER_DIR_$1} ${INC_DIR}
 
-# Rule to Compile C
-$(eval CFLAGS_$1 += -fpic)
-${COBJS_$1}: ${BUILD_DIR}/%.o : %.c
-	${CC} ${CDEPS_FLAGS} ${CFLAGS_$1} ${CPPFLAGS_$1} -c $$< -o $$@
-
-# Rule to create build directory mirror
-$(foreach OBJ_FILE,${COBJS_$1},$(eval ${OBJ_FILE}: | $(dir ${OBJ_FILE})))
-$(sort $(dir ${COBJS_$1}) ${LIB_DIR}):
-	@mkdir -p $$@
-
-# Rules (auto-generated) for object dependencies
--include $(patsubst %.o,%.d,${COBJS_$1})
 
 # Rules to clean
 .PHONY: clean-$1
