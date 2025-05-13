@@ -2,21 +2,10 @@
 ifndef _COMMON_MK_INCLUDED_
 _COMMON_MK_INCLUDED_ := INCLUDED
 
-ifeq (${BUILD_DIR},)
-BUILD_DIR := build
-endif
-
-ifeq (${BIN_DIR},)
-BIN_DIR = ${BUILD_DIR}/bin
-endif
-
-ifeq (${LIB_DIR},)
-LIB_DIR = ${BUILD_DIR}/lib
-endif
-
-ifeq (${INC_DIR},)
-INC_DIR = ${BUILD_DIR}/include
-endif
+BUILD_DIR ?= build
+BIN_DIR ?= ${BUILD_DIR}/bin
+LIB_DIR ?= ${BUILD_DIR}/lib
+INC_DIR ?= ${BUILD_DIR}/include
 
 ${BUILD_DIR} ${BIN_DIR} ${LIB_DIR} ${INC_DIR}:
 	@mkdir -p $@
@@ -24,12 +13,12 @@ ${BUILD_DIR} ${BIN_DIR} ${LIB_DIR} ${INC_DIR}:
 ### Functions ###
 ################################################################################
 
-# $1 -> appname
+# $1 -> Module name
 # Uses:
-# 	${BUILD_DIR}
 #	${CSRCS_$1}
 # 	${CFLAGS_$1}
 # 	${CPPFLAGS_$1}
+#	${DEPS_$1}
 # Sets:
 #	${COBJS_$1}
 define add_c_compile_target=
@@ -39,7 +28,6 @@ define add_c_compile_target=
 $(eval COBJS_$1 := $(sort \
 	$(addprefix ${BUILD_DIR}/,$(patsubst %.c,%.o,${CSRCS_$1}))))
 
-# TODO: Evaluate whether this is required
 # Each object should individually depend on DEPS_$1
 # E.g. if there is a dependency on a library, each object depends on the header
 # files that will be created from that library
@@ -63,6 +51,17 @@ $(sort $(dir ${COBJS_$1})):
 # Include the automatically generated dependency files for incremental builds
 -include $(patsubst %.o,%.d,${COBJS_$1})
 
+endef
+
+# $1 -> Name of module to clean
+# $2 -> List of files/directories to delete
+# Sets:
+#	${ARTIFACTS_$1}	- $2 is appended
+define add_clean_target=
+$(eval ARTIFACTS_$1 += $2)
+.PHONY: clean-$1
+clean-$1:
+	${RM} -r ${ARTIFACTS_$1}
 endef
 
 endif # ifndef _COMMON_MK_INCLUDED_
